@@ -74,3 +74,40 @@ print(f'Finished in {round(finish - start, 2)} second(s)')
 # Done Sleeping...4 second(s)...
 # Done Sleeping...5 second(s)...
 # Finished in 5.01 second(s)
+
+
+#Concurrent.futures
+import threading
+import time
+import concurrent.futures
+
+start = time.perf_counter()
+
+
+def do_something(second):
+    print(f'{threading.current_thread().name} Sleeping {second} second(s)...')
+    time.sleep(second)
+    print(f'Done Sleeping...{second} second(s)...')
+
+
+with concurrent.futures.ThreadPoolExecutor() as executor:
+    seconds = [5, 4, 3, 2, 1]
+    result = executor.map(do_something, seconds)
+
+finish = time.perf_counter()
+
+print(f'Finished in {round(finish - start, 2)} second(s)')
+
+
+#OUTPUT:-
+# Thread-1 (do_something) Sleeping 1 second(s)...
+# Thread-2 (do_something) Sleeping 2 second(s)...
+# Thread-3 (do_something) Sleeping 3 second(s)...
+# Thread-4 (do_something) Sleeping 4 second(s)...
+# Thread-5 (do_something) Sleeping 5 second(s)...
+# Done Sleeping...1 second(s)...
+# Done Sleeping...2 second(s)...
+# Done Sleeping...3 second(s)...
+# Done Sleeping...4 second(s)...
+# Done Sleeping...5 second(s)...
+# Finished in 5.01 second(s)
